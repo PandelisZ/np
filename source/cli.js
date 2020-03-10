@@ -70,7 +70,7 @@ const cli = meow(`
 		contents: {
 			type: 'string'
 		},
-		contentsBump: {
+		bumpContents: {
 			type: 'boolean'
 		},
 		preview: {
