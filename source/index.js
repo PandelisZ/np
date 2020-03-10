@@ -24,9 +24,9 @@ const releaseTaskHelper = require('./release-task-helper');
 const util = require('./util');
 const git = require('./git-util');
 
-const exec = (cmd, args) => {
+const exec = (cmd, args, options) => {
 	// Use `Observable` support if merged https://github.com/sindresorhus/execa/pull/26
-	const cp = execa(cmd, args);
+	const cp = execa(cmd, args, options);
 
 	return merge(
 		streamToObservable(cp.stdout.pipe(split())),
@@ -172,7 +172,7 @@ module.exports = async (input = 'patch', options) => {
 					return `[Preview] Command not executed: yarn version --new-version ${input}.`;
 				}
 			},
-			task: () => exec('yarn', ['version', '--new-version', input])
+			task: () => exec('yarn', ['version', '--new-version', input], { cwd: options.bumpContents ? pkgDir.sync(options.contents) : pkgDir.sync()})
 		},
 		{
 			title: 'Bumping version using npm',
@@ -182,7 +182,7 @@ module.exports = async (input = 'patch', options) => {
 					return `[Preview] Command not executed: npm version ${input}.`;
 				}
 			},
-			task: () => exec('npm', ['version', input])
+			task: () => exec('npm', ['version', input], { cwd: options.bumpContents ? pkgDir.sync(options.contents) : pkgDir.sync()})
 		}
 	]);
 

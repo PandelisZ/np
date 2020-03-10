@@ -30,6 +30,7 @@ const cli = meow(`
 	  --tag               Publish under a given dist-tag
 	  --no-yarn           Don't use Yarn
 	  --contents          Subdirectory to publish
+	  --bump-contents     Bump the contents package.json instead of the root
 	  --no-release-draft  Skips opening a GitHub release draft
 
 	Examples
@@ -68,6 +69,9 @@ const cli = meow(`
 		},
 		contents: {
 			type: 'string'
+		},
+		contentsBump: {
+			type: 'boolean'
 		},
 		preview: {
 			type: 'boolean'
