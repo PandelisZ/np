@@ -66,7 +66,7 @@ module.exports = async (input = 'patch', options) => {
 		const versionInLatestTag = latestTag.slice(tagVersionPrefix.length);
 
 		try {
-			if (versionInLatestTag === util.readPkg().version &&
+			if (versionInLatestTag === util.readPkg(options.bumpContents ? options.contents : undefined).version &&
 				versionInLatestTag !== pkg.version) { // Verify that the package's version has been bumped before deleting the last tag and commit.
 				await git.deleteTag(latestTag);
 				await git.removeLastCommit();
